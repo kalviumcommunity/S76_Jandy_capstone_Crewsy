@@ -1,0 +1,24 @@
+{
+  "name": "s76_jandy_capstone_crewsy",
+  "version": "1.0.0",
+  "description": "*Crewsy* is a real-time collaborative platform designed to support remote teams, student groups, and hackathon participants working together on shared projects. Inspired by tools like Google Meet and other popular productivity apps, it brings together video conferencing, a shared whiteboard, a collaborative code editor, live chat, and file sharing—all in a single seamless web application.\r The platform’s core goal is to eliminate the need for juggling multiple tools during online teamwork, streamlining collaboration and helping users stay focused, connected, and productive.",
+  "main": "db.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "joi": "^17.13.3",
+    "joi-password-complexity": "^5.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.14.1",
+    "nodemon": "^3.1.10"
+  }
+}
