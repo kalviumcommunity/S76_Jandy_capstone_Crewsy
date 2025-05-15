@@ -4,10 +4,13 @@
 *Crewsy* is a real-time collaborative platform designed to support remote teams, student groups, and hackathon participants working together on shared projects. Inspired by tools like Google Meet and other popular productivity apps, it brings together video conferencing, a shared whiteboard, a collaborative code editor, live chat, and file sharing—all in a single seamless web application.
 The platform’s core goal is to eliminate the need for juggling multiple tools during online teamwork, streamlining collaboration and helping users stay focused, connected, and productive.
 
+---
+
 ## Deployed Backend Link
 
 https://s76-jandy-capstone-crewsy-bxz5.onrender.com
 
+---
 
 ## 🚀 Features
 
