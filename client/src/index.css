@@ -1,4 +1,11 @@
-:root {
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* body{
+  background-color: pink;
+} */
+/* :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -29,6 +36,8 @@ body {
   min-width: 320px;
   min-height: 100vh;
 }
+
+
 
 h1 {
   font-size: 3.2em;
@@ -65,4 +74,5 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
-}
+} 
+ */
