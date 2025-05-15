@@ -17,7 +17,7 @@ app.use(cors());
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 
-// GET request
+// GET request for checking server status
 app.get('/', (req, res) => {
   res.send('Welcome to the Capstone Backend!');
 });
