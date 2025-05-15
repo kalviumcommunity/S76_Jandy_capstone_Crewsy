@@ -17,8 +17,13 @@ app.use(cors());
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 
+// GET request
+app.get('/', (req, res) => {
+  res.send('Welcome to the Capstone Backend!');
+});
+
 const port = process.env.PORT || 8080;
-app.listen(port, console.log(`Listening on port ${port}...`));
+app.listen(port, console.log(`Listening on port http://localhost:${port}...`));
 
 // app.use(cors({
 //     origin: 'http://localhost:5173',  // Or wherever your frontend runs
