@@ -6,6 +6,11 @@ The platform’s core goal is to eliminate the need for juggling multiple tools 
 
 ---
 
+## Deployed Frontend Link
+
+https://bespoke-beignet-36f9b9.netlify.app/
+
+---
 
 ## Deployed Backend Link
 
