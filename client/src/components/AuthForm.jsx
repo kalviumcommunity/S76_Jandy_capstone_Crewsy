@@ -1,52 +1,122 @@
-import React from 'react';
-// import LeftImage from '../assets/crewsy_left_image.jpg';
-
+import React, { useState } from "react";
+import API_URL from "../config";
+import { useNavigate } from "react-router-dom";
 
 const AuthForm = ({ mode, onSwitch }) => {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    const endpoint = mode === "signup" ? "/users" : "/auth";
+    const payload =
+      mode === "signup"
+        ? formData
+        : { email: formData.email, password: formData.password };
+
+    try {
+      const res = await fetch(`${API_URL}/api${endpoint}`, { // <-- Fix here
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.message || "Something went wrong");
+
+      if (mode === "login") {
+        localStorage.setItem("token", data.data); // store JWT token
+        alert("Login successful");
+        navigate("/dashboard"); // navigate to protected page
+      } else {
+        alert("Signup successful, please log in.");
+        onSwitch("login"); // switch to login form
+      }
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
   return (
-    <div className="bg-white p-8 rounded shadow-md w-[450px] h-[440px]">
+    <form
+      onSubmit={handleSubmit}
+      className="bg-white p-8 rounded shadow-md w-[450px] h-[460px]"
+    >
       <h2 className="text-xl font-bold mb-6">
-        {mode === 'signup' ? 'Getting Started' : 'Welcome Again'}
+        {mode === "signup" ? "Getting Started" : "Welcome Again"}
       </h2>
-      {mode === 'signup' && (
+
+      {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+
+      {mode === "signup" && (
         <>
-          <input type="text" placeholder="First Name" className="w-full p-2 mb-4 border rounded" />
-          <input type="text" placeholder="Last Name" className="w-full p-2 mb-4 border rounded"/>
+          <input
+            type="text"
+            name="firstName"
+            placeholder="First Name"
+            className="w-full p-2 mb-4 border rounded"
+            value={formData.firstName}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="lastName"
+            placeholder="Last Name"
+            className="w-full p-2 mb-4 border rounded"
+            value={formData.lastName}
+            onChange={handleChange}
+            required
+          />
         </>
       )}
-      <input type="email" placeholder="e - Mail" className="w-full p-2 mb-4 border rounded" />
-      <input type="password" placeholder="Password" className="w-full p-2 mb-4 border rounded" />
-      
-      <div className="flex space-x-2">
-        {mode === 'signup' ? (
-          <>
-            <button className="bg-indigo-600 text-white w-1/2 py-2 rounded">Sign up</button>
-            <button className="bg-gray-200 w-1/2 py-2 rounded" onClick={() => onSwitch('login')}>
-              Log in
-            </button>
-          </>
-        ) : (
-          <>
-            <button className="bg-indigo-600 text-white w-1/2 py-2 rounded">Log in</button>
-            <button className="bg-gray-200 w-1/2 py-2 rounded" onClick={() => onSwitch('signup')}>
-              Sign up
-            </button>
-          </>
-        )}
-      </div>
+      <input
+        type="email"
+        name="email"
+        placeholder="e - Mail"
+        className="w-full p-2 mb-4 border rounded"
+        value={formData.email}
+        onChange={handleChange}
+        required
+      />
+      <input
+        type="password"
+        name="password"
+        placeholder="Password"
+        className="w-full p-2 mb-4 border rounded"
+        value={formData.password}
+        onChange={handleChange}
+        required
+      />
 
-      <div className="mt-4 text-center text-sm text-gray-500">OR</div>
-      <div className="flex justify-between mt-4 ">
-        <button className="border  flex items-center gap-2 rounded">
-          <img src="https://img.icons8.com/color/16/google-logo.png" alt="google" />
-          Continue with Google
+      <div className="flex space-x-2">
+        <button
+          type="submit"
+          className="bg-indigo-600 text-white w-1/2 py-2 rounded"
+        >
+          {mode === "signup" ? "Sign up" : "Log in"}
         </button>
-        <button className="border  flex items-center gap-2 rounded">
-          <img src="https://img.icons8.com/ios-glyphs/16/github.png" alt="github" />
-          Continue with GitHub
+        <button
+          type="button"
+          className="bg-gray-200 w-1/2 py-2 rounded"
+          onClick={() => onSwitch(mode === "signup" ? "login" : "signup")}
+        >
+          {mode === "signup" ? "Log in" : "Sign up"}
         </button>
       </div>
-    </div>
+    </form>
   );
 };
 
