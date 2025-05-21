@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import AuthForm from './components/AuthForm';
 import LogoHeader from './components/LogoHeader';
+
 
 function App() {
   const [view, setView] = useState('landing'); // landing | signup | login
