@@ -11,6 +11,7 @@ exports.getProfile = async (req, res) => {
   }
 };
 
+
 // PUT /api/profile
 exports.updateProfile = async (req, res) => {
   const { firstName, lastName, bio, role } = req.body;

@@ -11,6 +11,7 @@ const profileRoutes = require("./routes/profile");
 // database connection
 connection();
 
+
 // middlewares
 app.use(express.json());
 app.use(cors());
