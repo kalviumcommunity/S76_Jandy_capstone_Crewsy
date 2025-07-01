@@ -3,6 +3,9 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import AuthForm from './components/AuthForm';
 import LogoHeader from './components/LogoHeader';
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import PrivateRoute from "./routes/PrivateRoute"; 
 
 function App() {
   const [view, setView] = useState('landing'); // landing | signup | login
@@ -22,11 +25,30 @@ function App() {
             view === 'landing' ? '' : 'bg-[#f9fafb] bg-opacity-70 backdrop-blur-md'
           }`}
         >
-          {view === 'landing' ? (
-            <LandingPage onStart={() => setView('signup')} />
-          ) : (
-            <AuthForm mode={view} onSwitch={setView} />
-          )}
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            
+            {/* ✅ Protected Dashboard Route */}
+            <Route
+              path="/dashboard"
+              element={
+                <PrivateRoute>
+                  <Dashboard />
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              path="/"
+              element={
+                view === 'landing' ? (
+                  <LandingPage onStart={() => setView('signup')} />
+                ) : (
+                  <AuthForm mode={view} onSwitch={setView} />
+                )
+              }
+            />
+          </Routes>
         </div>
       </div>
     </div>
