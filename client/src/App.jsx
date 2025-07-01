@@ -5,7 +5,8 @@ import AuthForm from './components/AuthForm';
 import LogoHeader from './components/LogoHeader';
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
-import PrivateRoute from "./routes/PrivateRoute"; 
+import PrivateRoute from "./routes/PrivateRoute";
+import NotFound from "./pages/NotFound"; // <-- Import NotFound
 
 function App() {
   const [view, setView] = useState('landing'); // landing | signup | login
@@ -27,8 +28,6 @@ function App() {
         >
           <Routes>
             <Route path="/login" element={<Login />} />
-          
-            {/* ✅ Protected Dashboard Route */}
             <Route
               path="/dashboard"
               element={
@@ -37,7 +36,6 @@ function App() {
                 </PrivateRoute>
               }
             />
-
             <Route
               path="/"
               element={
@@ -48,8 +46,8 @@ function App() {
                 )
               }
             />
+            <Route path="*" element={<NotFound />} /> {/* NotFound route */}
           </Routes>
-
         </div>
       </div>
     </div>
