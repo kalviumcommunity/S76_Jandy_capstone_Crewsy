@@ -27,7 +27,7 @@ function App() {
         >
           <Routes>
             <Route path="/login" element={<Login />} />
-            
+          
             {/* ✅ Protected Dashboard Route */}
             <Route
               path="/dashboard"
@@ -49,6 +49,7 @@ function App() {
               }
             />
           </Routes>
+
         </div>
       </div>
     </div>
