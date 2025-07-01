@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import API_URL from "../config";
 import { useNavigate } from "react-router-dom";
+import { auth, googleProvider, githubProvider } from "../firebase";
+import { signInWithPopup } from "firebase/auth";
 
 const AuthForm = ({ mode, onSwitch }) => {
   const [formData, setFormData] = useState({
@@ -9,7 +11,7 @@ const AuthForm = ({ mode, onSwitch }) => {
     email: "",
     password: "",
   });
-  
+
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -28,33 +30,51 @@ const AuthForm = ({ mode, onSwitch }) => {
         : { email: formData.email, password: formData.password };
 
     try {
-      const res = await fetch(`${API_URL}/api${endpoint}`, { // <-- Fix here
+      const res = await fetch(`${API_URL}/api${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      
+
       const data = await res.json();
 
       if (!res.ok) throw new Error(data.message || "Something went wrong");
 
       if (mode === "login") {
-        localStorage.setItem("token", data.data); // store JWT token
+        localStorage.setItem("token", data.data);
         alert("Login successful");
-        navigate("/dashboard"); // navigate to protected page
+        navigate("/dashboard");
       } else {
         alert("Signup successful, please log in.");
-        onSwitch("login"); // switch to login form
+        onSwitch("login");
       }
     } catch (err) {
       setError(err.message);
     }
   };
 
+  const handleGoogleLogin = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+      navigate("/dashboard");
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  const handleGithubLogin = async () => {
+    try {
+      await signInWithPopup(auth, githubProvider);
+      navigate("/dashboard");
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white p-8 rounded shadow-md w-[450px] h-[460px]"
+      className="bg-white p-8 rounded shadow-md w-[450px] h-auto"
     >
       <h2 className="text-xl font-bold mb-6">
         {mode === "signup" ? "Getting Started" : "Welcome Again"}
@@ -84,6 +104,7 @@ const AuthForm = ({ mode, onSwitch }) => {
           />
         </>
       )}
+
       <input
         type="email"
         name="email"
@@ -103,7 +124,7 @@ const AuthForm = ({ mode, onSwitch }) => {
         required
       />
 
-      <div className="flex space-x-2">
+      <div className="flex space-x-2 mb-4">
         <button
           type="submit"
           className="bg-indigo-600 text-white w-1/2 py-2 rounded"
@@ -116,6 +137,24 @@ const AuthForm = ({ mode, onSwitch }) => {
           onClick={() => onSwitch(mode === "signup" ? "login" : "signup")}
         >
           {mode === "signup" ? "Log in" : "Sign up"}
+        </button>
+      </div>
+
+      {/* ✅ Show Google & GitHub sign-in buttons on both login and signup */}
+      <div className="space-y-2">
+        <button
+          type="button"
+          onClick={handleGoogleLogin}
+          className="w-full py-2 px-4 bg-red-500 text-white rounded hover:bg-red-600"
+        >
+          Continue with Google
+        </button>
+        <button
+          type="button"
+          onClick={handleGithubLogin}
+          className="w-full py-2 px-4 bg-gray-800 text-white rounded hover:bg-gray-900"
+        >
+          Continue with GitHub
         </button>
       </div>
     </form>
